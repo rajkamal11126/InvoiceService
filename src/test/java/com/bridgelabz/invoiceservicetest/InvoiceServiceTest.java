@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.bridgelabz.invoiceservice.InvoiceService;
+import com.bridgelabz.invoiceservice.InvoiceSummary;
 import com.bridgelabz.invoiceservice.Ride;
 
 public class InvoiceServiceTest {
@@ -32,13 +33,14 @@ public class InvoiceServiceTest {
 	}
 
 	/**
-	 * method to return total fare of cab
+	 * method to return invoice summary of multiple rides
 	 */
 	@Test
-	public void givenMultipleRides_ShoulReturnTotalFare() {
+	public void givenMultipleRides_ShoulReturnInvoiceSummary() {
 		InvoiceService invoiceService = new InvoiceService();
 		Ride[] rides = { new Ride(2.0, 5), new Ride(0.5, 5), new Ride(0.1, 1), };
-		double totalFare = invoiceService.calculateFare(rides);
-		Assert.assertEquals(40, totalFare, 0.0);
+		InvoiceSummary invoiceSummary = invoiceService.calculateFare(rides);
+		InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3, 40.0);
+		Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
 	}
 }
