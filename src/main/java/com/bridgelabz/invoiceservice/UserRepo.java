@@ -6,19 +6,17 @@ public class UserRepo {
 	String userid;
 	private ArrayList<Ride> rideList;
 
-	/**
-	 * @param userid constructor of UserRepo to initialize user id and ride list using array list
-	 */
-	public UserRepo(String userid) {
-		this.userid = userid;
-		this.rideList = new ArrayList<>();
-	}
+	//initializes a user id and a rideList that will be used to store multiple rides for the user id
+	public UserRepo(String userid ) { 
+        this.userid = userid;
+        this.rideList = new ArrayList<>();
+    }
 
 	public ArrayList<Ride> getRideList() {
 		return rideList;
 	}
 
-	public void addRide(double distance, int time) {
-		this.rideList.add(new Ride(distance, time));
+	public void addRide(double distance, int time, String category) { // adds ride details to rideList
+		this.rideList.add(new Ride(distance, time, category));
 	}
 }

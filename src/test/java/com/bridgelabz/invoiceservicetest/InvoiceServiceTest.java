@@ -1,11 +1,14 @@
 package com.bridgelabz.invoiceservicetest;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.bridgelabz.invoiceservice.InvoiceService;
 import com.bridgelabz.invoiceservice.InvoiceSummary;
 import com.bridgelabz.invoiceservice.Ride;
+import com.bridgelabz.invoiceservice.UserRepo;
 
 public class InvoiceServiceTest {
 	/**
@@ -41,6 +44,38 @@ public class InvoiceServiceTest {
 		Ride[] rides = { new Ride(2.0, 5), new Ride(0.5, 5), new Ride(0.1, 1), };
 		InvoiceSummary invoiceSummary = invoiceService.calculateFare(rides);
 		InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3, 40.0);
+		Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
+	}
+
+	/**
+	 * method to return invoice summary of normal multiple ride
+	 */
+	@Test
+	public void givenUserIdAndNormalRideCategory_ShouldReturnInvoiceSummary() {
+		InvoiceService invoiceService = new InvoiceService();
+		UserRepo newUser = new UserRepo("abc");
+		newUser.addRide(2.0, 5, "normal");
+		newUser.addRide(0.5, 5, "normal");
+		newUser.addRide(0.1, 1, "normal");
+		ArrayList<Ride> rideListForId = InvoiceService.getListOfRides(newUser);
+		InvoiceSummary invoiceSummary = InvoiceService.calculateFare(rideListForId);
+		InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3, 40);
+		Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
+	}
+
+	/**
+	 * method to return invoice summary of premium ride category 
+	 */
+	@Test
+	public void givenUserIdAndPremiumRideCategory_ShouldReturnInvoiceSummary() {
+		InvoiceService invoiceService = new InvoiceService();
+		UserRepo newUser = new UserRepo("def");
+		newUser.addRide(2.0, 5, "premium");
+		newUser.addRide(0.5, 5, "premium");
+		newUser.addRide(0.1, 1, "normal");
+		ArrayList<Ride> rideListForId = InvoiceService.getListOfRides(newUser);
+		InvoiceSummary invoiceSummary = invoiceService.calculateFare(rideListForId);
+		InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(3, 65);
 		Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
 	}
 }
